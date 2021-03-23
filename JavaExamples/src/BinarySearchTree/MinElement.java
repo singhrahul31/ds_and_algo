@@ -1,10 +1,8 @@
 package BinarySearchTree;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
-public class PreOrderTraversal {
+public class MinElement {
 
     Node root;
     int length =0;
@@ -47,39 +45,15 @@ public class PreOrderTraversal {
         }
     }
 
-    void printPreOrderInterative() {
-        if(root == null) {
-            return;
-        } else {
-            Stack<Node> stack = new Stack<>();
-            Node current = root;
-            while(current != null || stack.size() > 0) {
-
-                while(current != null) {
-                    stack.push(current);
-                    current = current.left;
-                }
-                current = stack.pop();
-                System.out.println(current.data + " ");
-
-                current = current.right;
-            }
-
+    int minElement() {
+        Node curr = root;
+        int min = Integer.MAX_VALUE;
+        while(curr !=null) {
+            min = curr.data;
+            curr = curr.left;
         }
-    }
 
-    List<Integer> printPreOrderRecursive() {
-        List<Integer> list = new ArrayList<>();
-        preOrderRecursive(root, list);
-        return list;
-    }
-
-    void preOrderRecursive(Node root, List<Integer> list) {
-
-        if(root == null) return;
-        list.add(root.data);
-        preOrderRecursive(root.left, list);
-        preOrderRecursive(root.right, list);
+        return min;
     }
 
     int getSize() {
@@ -87,7 +61,7 @@ public class PreOrderTraversal {
     }
 
     public static void main(String[] args) {
-        PreOrderTraversal bst = new PreOrderTraversal();
+        MinElement bst = new MinElement();
         bst.insert(8);
         bst.insert(10);
         bst.insert(5);
@@ -95,11 +69,9 @@ public class PreOrderTraversal {
         bst.insert(18);
         bst.insert(15);
         System.out.println(bst.getSize());
-        bst.printPreOrderInterative();
-        List<Integer> result = bst.printPreOrderRecursive();
-        for(int i: result) {
-            System.out.println(i);
-        }
+        System.out.println(bst.minElement());
 
     }
+
+
 }

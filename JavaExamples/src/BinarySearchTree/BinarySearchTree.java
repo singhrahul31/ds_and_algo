@@ -4,17 +4,11 @@ import java.util.*;
 
 public class BinarySearchTree {
 
-    Node head;
-    int length;
+    Node root;
+    int length =0;
     List<Integer> values;
 
-
-    public BinarySearchTree() {
-        values = new ArrayList<>();
-    }
-
-    // define single elements as node
-    class Node {
+    static class Node {
         Node left;
         Node right;
         int data;
@@ -25,51 +19,34 @@ public class BinarySearchTree {
         }
     }
 
-
-    public void insert(int value) {
-        //create a node
+    void insert(int value) {
         Node n = new Node(value);
-        //if the head doesnt exist then assign the ndoe to head
-
-        if(head == null) {
-            head =n;
-            values.add(head.data);
+        length++;
+        if(root == null) {
+            root = n;
+            return;
         } else {
-            if(value <= head.data) {
-                if(head.left == null) {
-                    head.left = n;
-                    values.add(head.left.data);
+            Node current = root;
+            while(current != null) {
+                if(value <= current.data) {
+                    if(current.left == null) {
+                        current.left = n;
+                        return;
+                    }
+                    current = current.left;
                 } else {
-                    head = head.left;
-                    insert(head.data);
-                }
-            } else {
-                if(head.right == null) {
-                    head.right = n;
-                    values.add(head.right.data);
-                } else {
-                    head = head.right;
-                    insert(head.data);
+                    if(current.right == null) {
+                        current.right = n;
+                        return;
+                    }
+                    current = current.right;
                 }
             }
         }
-        // if head exist
-            // check the value is less than or equal to head
-                //check if left node exists
-            // if greter than
-                // check if right node exist
-        // inc the length
-        length++;
     }
 
-    public void printNodes() {
-
-        if(length > 0) {
-            for(int i: values) {
-                System.out.println(i);
-            }
-        }
-
+    int getSize() {
+        return length;
     }
 
     public static void main(String[] args) {
@@ -77,11 +54,10 @@ public class BinarySearchTree {
         bst.insert(8);
         bst.insert(10);
         bst.insert(5);
-//        bst.insert(12);
-//        bst.insert(18);
-//        bst.insert(15);
-        System.out.println(bst.length);
-        bst.printNodes();
+        bst.insert(12);
+        bst.insert(18);
+        bst.insert(15);
+        System.out.println(bst.getSize());
 
     }
 

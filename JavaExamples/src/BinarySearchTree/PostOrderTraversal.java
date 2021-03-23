@@ -1,10 +1,8 @@
 package BinarySearchTree;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
-public class PreOrderTraversal {
+public class PostOrderTraversal {
 
     Node root;
     int length =0;
@@ -47,47 +45,34 @@ public class PreOrderTraversal {
         }
     }
 
-    void printPreOrderInterative() {
-        if(root == null) {
-            return;
-        } else {
-            Stack<Node> stack = new Stack<>();
-            Node current = root;
-            while(current != null || stack.size() > 0) {
-
-                while(current != null) {
-                    stack.push(current);
-                    current = current.left;
-                }
-                current = stack.pop();
-                System.out.println(current.data + " ");
-
-                current = current.right;
-            }
-
-        }
-    }
-
-    List<Integer> printPreOrderRecursive() {
+     List<Integer> postOrderTraversal() {
         List<Integer> list = new ArrayList<>();
-        preOrderRecursive(root, list);
+        if(root == null) {
+            return list;
+        } else {
+            Stack<Node> stack = new Stack();
+            Stack<Node> mainStack = new Stack();
+            Node current = root;
+            stack.push(current);
+            while(!stack.empty()) {
+                Node temp = stack.pop();
+                mainStack.push(temp);
+
+                if(temp.left != null) stack.push(temp.left);
+                if(temp.right != null) stack.push(temp.right);
+            }
+            while(!mainStack.empty()) {
+                list.add(mainStack.pop().data);
+            }
+        }
         return list;
     }
-
-    void preOrderRecursive(Node root, List<Integer> list) {
-
-        if(root == null) return;
-        list.add(root.data);
-        preOrderRecursive(root.left, list);
-        preOrderRecursive(root.right, list);
-    }
-
     int getSize() {
         return length;
     }
 
     public static void main(String[] args) {
-        PreOrderTraversal bst = new PreOrderTraversal();
+        PostOrderTraversal bst = new PostOrderTraversal();
         bst.insert(8);
         bst.insert(10);
         bst.insert(5);
@@ -95,11 +80,12 @@ public class PreOrderTraversal {
         bst.insert(18);
         bst.insert(15);
         System.out.println(bst.getSize());
-        bst.printPreOrderInterative();
-        List<Integer> result = bst.printPreOrderRecursive();
-        for(int i: result) {
+        List<Integer> list = bst.postOrderTraversal();
+        for(Integer i: list) {
             System.out.println(i);
         }
 
     }
+
+
 }
