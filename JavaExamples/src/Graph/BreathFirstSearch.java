@@ -38,12 +38,11 @@ public class BreathFirstSearch {
 		Queue<Integer> q = new LinkedList<>();
 		List<Integer> result = new ArrayList<>();
 		Set<Integer> visited = new HashSet<>();
-		int i=0;
 		q.add(vertex);
 		visited.add(vertex);
+		result.add(vertex);
 		while(q.size()>0) {
-			int val = q.poll();
-			result.add(val);
+			int val = q.poll();		
 			List<Integer> list = map.get(val);
 			for(int num: list) {
 				if(!visited.contains(num)) {
@@ -60,7 +59,7 @@ public class BreathFirstSearch {
 	public static void main(String[] args) {
 		BreathFirstSearch bf = new BreathFirstSearch();
 		int[] vertices = new int[] {0,1,2,3,4};
-		int[][] edges = new int[][] {{0,1},{0,2},{0,4}, {1,0},{1,4},{2,0},{2,3}, {3,2},{3,4}, {4,3}, {4,0}, {4,1}};
+		int[][] edges = new int[][] {{0,1},{0,2},{0,4},{1,4},{2,3},{3,4}};
 		
 		for(int i: vertices) {
 			bf.addVertex(i);
