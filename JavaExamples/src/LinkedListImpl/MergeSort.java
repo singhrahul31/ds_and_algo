@@ -1,73 +1,69 @@
 package LinkedListImpl;
 
 public class MergeSort {
-    Node root;
-    static Node mergeSort(Node root) {
+    Node head;
+    public static void main(String[] args) {
+        MergeSort ms = new MergeSort();
+        ms.head = new Node(4);
+        ms.head.next = new Node(2);
+        ms.head.next.next = new Node(1);
+        ms.head.next.next.next = new Node(3);
+        Node result = mergeSort(ms.head);
+        while(result != null) {
+            System.out.print(result.val+ " ");
+            result = result.next;
+        }
+    }
 
-        if(root == null || root.next == null) return root;
-
-        Node preNode = null, start=root, end=root;
-        while(end != null && end.next != null) {
-            preNode = start;
+    private static Node mergeSort(Node head) {
+        if(head==null || head.next==null) return head;
+        Node prevNode=null, start = head, end=head;
+        while(end !=null && end.next !=null) {
+            prevNode = start;
             start = start.next;
             end = end.next.next;
         }
-        preNode.next = null;
+        prevNode.next = null;
 
-        return merge(mergeSort(root), mergeSort(start));
+        return merge(mergeSort(head), mergeSort(start));
 
     }
 
-    static Node merge(Node a, Node b) {
-
+    private static Node merge(Node a, Node b) {
         Node result = new Node(0);
-        Node head = result;
-        while(a!=null && b != null) {
+        Node root = result;
+        while(a!= null && b!=null) {
             if(a.val < b.val) {
-                head.next = a;
-                a = a.next;
-            } else {
-                head.next = b;
-                b = b.next;
+                root.next = a;
+                a=a.next;
             }
-            head = head.next;
+            else {
+                root.next = b;
+                b=b.next;
+            }
+            root = root.next;
         }
         while(a!=null) {
-            head.next = a;
-            a = a.next;
-            head = head.next;
+            root.next = a;
+            root = root.next;
         }
         while(b!=null) {
-            head.next = b;
-            b = b.next;
-            head = head.next;
+            root.next = b;
+            root = root.next;
         }
+
         return result.next;
     }
 
-    public static void main(String[] args) {
-        MergeSort ms = new MergeSort();
-        ms.root = new Node(9);
-        ms.root.next = new Node(5);
-        ms.root.next.next = new Node(10);
-        ms.root.next.next.next = new Node(2);
-        ms.root.next.next.next.next = new Node(15);
-        ms.root.next.next.next.next.next = new Node(8);
-
-        Node result = mergeSort(ms.root);
-        while(result != null) {
-            System.out.print(result.val + " ");
-            result = result.next;
-        }
-
-    }
 
 }
+
 
 class Node {
     int val;
     Node next;
-     Node(int d) {
-         val=d;
-     }
+
+    Node(int v) {
+        val=v;
+    }
 }

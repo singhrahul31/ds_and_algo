@@ -8,47 +8,35 @@ import java.util.Map;
 public class LongestPallindrome {
 
     public static String longestPalindrome(String s) {
-        int start =0;
-        int max=0;
-        if(s.length() <= 2) {
-            return Character.toString(s.charAt(0));
-        }
-        Map<Character, Integer> map = new HashMap<>();
-        List<String> list = new ArrayList<>();
+        String long_string = " ";
+        int longest = 0;
+        int start = 0;
         for(int i=0;i<s.length();i++) {
-
-            if(map.containsKey(s.charAt(i))) {
-                String subStr = s.substring(map.get(s.charAt(i)), i+1);
-                boolean result = isPallindrome(subStr);
-                if(result) {
-                    max = Math.max(max, subStr.length());
-                    list.add(subStr);
+            for(int j=i;j<s.length();j++) {
+                int pallindrome_length = check(s, i, j);
+                if(pallindrome_length > 0) {
+                    longest = Math.max(longest, pallindrome_length);
+                    if(pallindrome_length> longest) {
+                        start = i;
+                    }
                 }
+            }
+        }
 
-            }
-            map.put(s.charAt(i), i);
-        }
-        for(String st: list) {
-            if(st.length() == max) {
-                return st;
-            }
-        }
-        return null;
+        return s.substring(start, longest);
     }
 
-    public static boolean isPallindrome(String s) {
-        int start =0;
-        int end = s.length()-1;
+    private static int check(String s, int start, int end) {
+        int len = end-start+1;
         while(start < end) {
             if(s.charAt(start) == s.charAt(end)) {
                 start++;
                 end--;
-            } else return false;
+            } else return 0;
         }
-        return true;
+        return len;
     }
-
     public static void main(String[] args) {
-        System.out.println(longestPalindrome("bbabbabb"));
+        System.out.println(longestPalindrome("acab"));
     }
 }
