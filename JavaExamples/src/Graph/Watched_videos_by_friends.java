@@ -2,6 +2,7 @@ package Graph;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -9,11 +10,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.TreeMap;
 
 public class Watched_videos_by_friends {
 	
-    public List<String> watchedVideosByFriends(List<List<String>> watchedVideos, int[][] friends, int id, int level) {
+    public static List<String> watchedVideosByFriends(List<List<String>> watchedVideos, int[][] friends, int id, int level) {
         Queue<Integer> friend_queue = new LinkedList<>();
         Set<Integer> visited = new HashSet<>();
         Map<String, Integer> vdo_freq = new HashMap<>();
@@ -45,7 +46,35 @@ public class Watched_videos_by_friends {
             }
             current_level++;
         }
-        return null;
+        Map<Integer, List<String>> vdo_by_name = new TreeMap<>();
+        for(String vdo: vdo_freq.keySet()) {
+        	vdo_by_name.putIfAbsent(vdo_freq.get(vdo), new ArrayList<>());
+        	vdo_by_name.get(vdo_freq.get(vdo)).add(vdo);
+        }
+        for(String vdo: vdo_freq.keySet()) {
+        	System.out.println(vdo+" "+vdo_freq.get(vdo));
+        }
+        List<String> result = new ArrayList<>();
+        for(List<String> list: vdo_by_name.values()) {
+        	Collections.sort(list);
+        	result.addAll(list);
+        }
+        
+        return result;
     }
+    
+    public static void main(String[] args) {
+		String[][] videos = new String[][] {{"bjwtssmu"},{"aygr","mqls"},{"vrtxa","zxqzeqy","nbpl","qnpl"},{"r","otazhu","rsf"},{"bvcca","ayyihidz","ljc","fiq","viu"}};
+		int[][] friends = new int[][] {{3,2,1,4},{0,4},{4,0},{0,4},{2,3,1,0}};
+		int id=1;
+		int level=1;
+		List<List<String>> input = new ArrayList<>();
+		for(String[] value: videos) {
+			input.add(Arrays.asList(value));
+		}
+		List<String> result = watchedVideosByFriends(input, friends, id, level);
+		for(String vdo: result) System.out.print(vdo + " ");
+		
+	}
 
 }
