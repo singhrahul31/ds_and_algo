@@ -3,18 +3,16 @@ package Graph;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 
-public class BreathFirstSearch {
+public class DepthFirstsearch {
 	
 	Map<Integer, List<Integer>> map;
 	
-	public BreathFirstSearch() {
+	public DepthFirstsearch() {
 		map = new HashMap<>();
 	}
 	
@@ -35,47 +33,45 @@ public class BreathFirstSearch {
 		map.get(to).add(from);
 	}
 	
-	List<Integer> bfs(int vertex) {
-		Queue<Integer> q = new LinkedList<>();
+	List<Integer> dfs(int vertex) {
+		Stack<Integer> stack = new Stack<>();
 		List<Integer> result = new ArrayList<>();
 		Set<Integer> visited = new HashSet<>();
-		q.add(vertex);
+		stack.add(vertex);
 		visited.add(vertex);
-		while(q.size()>0) {
-			int val = q.poll();	
+		while(!stack.empty()) {
+			int val = stack.pop();
 			result.add(val);
-			List<Integer> list = map.get(val);
-			for(int num: list) {
-				if(!visited.contains(num)) {
-					q.add(num);
-					visited.add(num);
+			List<Integer> values = map.get(val);
+			for(int i: values) {
+				if(!visited.contains(i)) {
+					stack.add(i);
+					visited.add(i);
 				}
 			}
+			
 		}
 		return result;
-
 	}
 	
-
-	
 	public static void main(String[] args) {
-		BreathFirstSearch bf = new BreathFirstSearch();
+		DepthFirstsearch df = new DepthFirstsearch();
 		int[] vertices = new int[] {1,2,3,4,5};
 		int[][] edges = new int[][] {{1,3},{1,5},{2,3},{4,5}};
 		
 		for(int i: vertices) {
-			bf.addVertex(i);
+			df.addVertex(i);
 		}
 		
 		for(int[] edge: edges) {
-			bf.addEdge(edge[0], edge[1]);
+			df.addEdge(edge[0], edge[1]);
 		}
 		
-		List<Integer> result= bf.bfs(1);
-		for(int i: result) {
+
+		List<Integer> result1= df.dfs(1);
+		for(int i: result1) {
 			System.out.print(i + " ");
 		}
-
 	}
 
 }
